@@ -91,6 +91,10 @@ describe('c3 chart data', function () {
         });
 
         describe('milliseconds timeseries x', function () {
+            var getUtcTimestamp = function (y, mo, d, h, mi, s, ms) {
+                var msOffset = new Date().getTimezoneOffset() * 60 * 1000;
+                return new Date(y, mo, d, h, mi, s, ms) - msOffset;
+            };
 
             describe('as date string', function () {
 
@@ -172,11 +176,14 @@ describe('c3 chart data', function () {
                 });
 
                 it('should have Date object as x', function () {
-                    var xs = chart.internal.data.xs;
-                    expect(+xs.data1[0]).toBe(+new Date(2014, 11, 3, 16, 1, 1, 123));
-                    expect(+xs.data1[1]).toBe(+new Date(2014, 11, 3, 16, 2, 2, 345));
-                    expect(+xs.data2[0]).toBe(+new Date(2014, 11, 3, 16, 1, 1, 123));
-                    expect(+xs.data2[1]).toBe(+new Date(2014, 11, 3, 16, 2, 2, 345));
+                    var xs = chart.internal.data.xs,
+                        timestamp0 = getUtcTimestamp(2014, 11, 3, 16, 1, 1, 123),
+                        timestamp1 = getUtcTimestamp(2014, 11, 3, 16, 2, 2, 345);
+
+                    expect(+xs.data1[0]).toBe(timestamp0);
+                    expect(+xs.data1[1]).toBe(timestamp1);
+                    expect(+xs.data2[0]).toBe(timestamp0);
+                    expect(+xs.data2[1]).toBe(timestamp1);
                 });
             });
 
@@ -212,11 +219,14 @@ describe('c3 chart data', function () {
                 });
 
                 it('should have Date object as x', function () {
-                    var xs = chart.internal.data.xs;
-                    expect(+xs.data1[0]).toBe(+new Date(2014, 11, 3, 16, 1, 1, 123));
-                    expect(+xs.data1[1]).toBe(+new Date(2014, 11, 3, 16, 2, 2, 345));
-                    expect(+xs.data2[0]).toBe(+new Date(2014, 11, 3, 16, 1, 1, 123));
-                    expect(+xs.data2[1]).toBe(+new Date(2014, 11, 3, 16, 2, 2, 345));
+                    var xs = chart.internal.data.xs,
+                        timestamp0 = getUtcTimestamp(2014, 11, 3, 16, 1, 1, 123),
+                        timestamp1 = getUtcTimestamp(2014, 11, 3, 16, 2, 2, 345);
+
+                    expect(+xs.data1[0]).toBe(timestamp0);
+                    expect(+xs.data1[1]).toBe(timestamp1);
+                    expect(+xs.data2[0]).toBe(timestamp0);
+                    expect(+xs.data2[1]).toBe(timestamp1);
                 });
 
             });
