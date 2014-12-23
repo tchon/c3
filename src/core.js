@@ -114,8 +114,8 @@ c3_chart_internal_fn.initParams = function () {
 
     $$.isLegendRight = config.legend_position === 'right';
     $$.isLegendInset = config.legend_position === 'inset';
-    $$.isLegendTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
-    $$.isLegendLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
+    $$.isLegendInsetTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
+    $$.isLegendInsetLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
     $$.legendStep = 0;
     $$.legendItemWidth = 0;
     $$.legendItemHeight = 0;

@@ -119,8 +119,8 @@
 
         $$.isLegendRight = config.legend_position === 'right';
         $$.isLegendInset = config.legend_position === 'inset';
-        $$.isLegendTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
-        $$.isLegendLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
+        $$.isLegendInsetTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
+        $$.isLegendInsetLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
         $$.legendStep = 0;
         $$.legendItemWidth = 0;
         $$.legendItemHeight = 0;
@@ -3706,8 +3706,8 @@
     };
     c3_chart_internal_fn.updateSizeForLegend = function (legendHeight, legendWidth) {
         var $$ = this, config = $$.config, insetLegendPosition = {
-            top: $$.isLegendTop ? $$.getCurrentPaddingTop() + config.legend_inset_y + 5.5 : $$.currentHeight - legendHeight - $$.getCurrentPaddingBottom() - config.legend_inset_y,
-            left: $$.isLegendLeft ? $$.getCurrentPaddingLeft() + config.legend_inset_x + 0.5 : $$.currentWidth - legendWidth - $$.getCurrentPaddingRight() - config.legend_inset_x + 0.5
+            top: $$.isLegendInsetTop ? $$.getCurrentPaddingTop() + config.legend_inset_y + 5.5 : $$.currentHeight - legendHeight - $$.getCurrentPaddingBottom() - config.legend_inset_y,
+            left: $$.isLegendInsetLeft ? $$.getCurrentPaddingLeft() + config.legend_inset_x + 0.5 : $$.currentWidth - legendWidth - $$.getCurrentPaddingRight() - config.legend_inset_x + 0.5
         };
 
         $$.margin3 = {
