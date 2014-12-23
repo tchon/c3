@@ -117,6 +117,7 @@
         $$.y2Orient = config.axis_rotated ? (config.axis_y2_inner ? "bottom" : "top") : (config.axis_y2_inner ? "left" : "right");
         $$.subXOrient = config.axis_rotated ? "left" : "bottom";
 
+        $$.isLegendTop = config.legend_position === 'top';
         $$.isLegendRight = config.legend_position === 'right';
         $$.isLegendInset = config.legend_position === 'inset';
         $$.isLegendInsetTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
@@ -332,7 +333,8 @@
         var $$ = this, config = $$.config;
         var legendHeight = $$.legend ? $$.getLegendHeight() : 0,
             legendWidth = $$.legend ? $$.getLegendWidth() : 0,
-            legendHeightForBottom = $$.isLegendRight || $$.isLegendInset ? 0 : legendHeight,
+            legendHeightForTop = $$.isLegendTop ? legendHeight : 0,
+            legendHeightForBottom = !$$.isLegendTop && ($$.isLegendRight || $$.isLegendInset) ? 0 : legendHeight,
             hasArc = $$.hasArcType(),
             xAxisHeight = config.axis_rotated || hasArc ? 0 : $$.getHorizontalAxisHeight('x'),
             subchartHeight = config.subchart_show && !hasArc ? (config.subchart_size_height + xAxisHeight) : 0;
@@ -347,7 +349,7 @@
             bottom: $$.getHorizontalAxisHeight('y') + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: subchartHeight + (hasArc ? 0 : $$.getCurrentPaddingLeft())
         } : {
-            top: 4 + $$.getCurrentPaddingTop(), // for top tick text
+            top: 4 + $$.getCurrentPaddingTop() + legendHeightForTop, // for top tick text
             right: hasArc ? 0 : $$.getCurrentPaddingRight(),
             bottom: xAxisHeight + subchartHeight + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: hasArc ? 0 : $$.getCurrentPaddingLeft()
@@ -360,7 +362,7 @@
             bottom: 20 + legendHeightForBottom,
             left: $$.rotated_padding_left
         } : {
-            top: $$.currentHeight - subchartHeight - legendHeightForBottom,
+            top: $$.currentHeight - subchartHeight - legendHeightForBottom + legendHeightForTop,
             right: NaN,
             bottom: xAxisHeight + legendHeightForBottom,
             left: $$.margin.left
@@ -696,7 +698,11 @@
         var $$ = this, config = $$.config, x, y;
         if (target === 'main') {
             x = asHalfPixel($$.margin.left);
-            y = asHalfPixel($$.margin.top);
+            var topOffset = $$.margin.top;
+            if ($$.isLegendTop) {
+                topOffset += $$.margin3.top;
+            }
+            y = asHalfPixel(topOffset);
         } else if (target === 'context') {
             x = asHalfPixel($$.margin2.left);
             y = asHalfPixel($$.margin2.top);
@@ -3706,12 +3712,14 @@
     };
     c3_chart_internal_fn.updateSizeForLegend = function (legendHeight, legendWidth) {
         var $$ = this, config = $$.config, insetLegendPosition = {
-            top: $$.isLegendInsetTop ? $$.getCurrentPaddingTop() + config.legend_inset_y + 5.5 : $$.currentHeight - legendHeight - $$.getCurrentPaddingBottom() - config.legend_inset_y,
-            left: $$.isLegendInsetLeft ? $$.getCurrentPaddingLeft() + config.legend_inset_x + 0.5 : $$.currentWidth - legendWidth - $$.getCurrentPaddingRight() - config.legend_inset_x + 0.5
+            top: $$.isLegendInsetTop ? $$.getCurrentPaddingTop() + config.legend_inset_y + 5.5 :
+                $$.currentHeight - legendHeight - $$.getCurrentPaddingBottom() - config.legend_inset_y,
+            left: $$.isLegendInsetLeft ? $$.getCurrentPaddingLeft() + config.legend_inset_x + 0.5 :
+                $$.currentWidth - legendWidth - $$.getCurrentPaddingRight() - config.legend_inset_x + 0.5
         };
 
         $$.margin3 = {
-            top: $$.isLegendRight ? 0 : $$.isLegendInset ? insetLegendPosition.top : $$.currentHeight - legendHeight,
+          top: $$.isLegendTop ? legendHeight : $$.isLegendRight ? 0 : $$.isLegendInset ? insetLegendPosition.top : $$.currentHeight - legendHeight,
             right: NaN,
             bottom: 0,
             left: $$.isLegendRight ? $$.currentWidth - legendWidth : $$.isLegendInset ? insetLegendPosition.left : 0
