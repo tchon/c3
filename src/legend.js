@@ -24,7 +24,7 @@ c3_chart_internal_fn.updateSizeForLegend = function (legendHeight, legendWidth) 
     };
 
     $$.margin3 = {
-      top: $$.isLegendTop ? legendHeight : $$.isLegendRight ? 0 : $$.isLegendInset ? insetLegendPosition.top : $$.currentHeight - legendHeight,
+        top: $$.isLegendTop ? legendHeight : $$.isLegendRight ? 0 : $$.isLegendInset ? insetLegendPosition.top : $$.currentHeight - legendHeight,
         right: NaN,
         bottom: 0,
         left: $$.isLegendRight ? $$.currentWidth - legendWidth : $$.isLegendInset ? insetLegendPosition.left : 0

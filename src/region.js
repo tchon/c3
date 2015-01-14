@@ -7,6 +7,8 @@ c3_chart_internal_fn.initRegion = function () {
 c3_chart_internal_fn.redrawRegion = function (duration) {
     var $$ = this, config = $$.config;
 
+    window.c3internal = $$;
+
     // hide if arc type
     $$.region.style('visibility', $$.hasArcType() ? 'hidden' : 'visible');
 
